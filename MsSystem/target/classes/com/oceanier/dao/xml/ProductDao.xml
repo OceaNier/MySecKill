@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oceanier.dao.ProductDao">
+
+    <select id="queryProductById" parameterType="int" resultType="product">
+        SELECT * FROM msProductInfo WHERE id = #{value}
+    </select>
+
+    <!-- 申请秒杀商品 -->
+    <insert id="applyProduct" parameterType="product">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO msProductInfo(productId,productTitle,productPicture,miaoshaPrice,originalPrice,merchantId,applyDate,auditState,startTime,endTime,productCount,stockCount,description)
+        VALUE (#{productId},#{productTitle},#{productPicture},#{miaoshaPrice},#{originalPrice},#{merchantId},#{applyDate},#{auditState},#{startTime},#{endTime},#{productCount},#{stockCount},#{description})
+    </insert>
+
+    <update id="updateProduct" parameterType="product">
+        UPDATE msProductInfo SET productTitle=#{productTitle},productPicture=#{productPicture},miaoshaPrice=#{miaoshaPrice},originalPrice=#{originalPrice}
+        ,startTime=#{startTime},endTime=#{endTime},productCount=#{productCount},stockCount=#{stockCount},description=#{description} WHERE id=#{id}
+    </update>
+
+    <delete id="deleteProductById" parameterType="int">
+        DELETE FROM msProductInfo WHERE id=#{id}
+    </delete>
+
+    <update id="updateProductState" parameterType="productVo">
+        UPDATE msProductInfo SET auditState=#{customProduct.auditState},auditDate=#{customProduct.auditDate} WHERE id=#{customProduct.id}
+    </update>
+
+
+    <sql id="customsql">
+        <if test="customProduct != null">
+            <if test="customProduct.productId != null and customProduct.productId != ''">
+                and productId = ${customProduct.productId}
+            </if>
+            <if test="customProduct.productTitle != null and customProduct.productTitle != ''">
+                and productTitle = like %${customProduct.productTitle}%
+            </if>
+
+            <!-- 部分属性需要判断范围 -->
+            <if test="customProduct.startMiaoshaPrice != null and customProduct.startMiaoshaPrice != ''">
+                and miaoshaPrice <![CDATA[>=]]> ${customProduct.startMiaoshaPrice}
+            </if>
+            <if test="customProduct.endMiaoshaPrice != null and customProduct.endMiaoshaPrice != ''">
+                and miaoshaPrice <![CDATA[<=]]> ${customProduct.endMiaoshaPrice}
+            </if>
+            <if test="customProduct.startOriginalPrice != null and customProduct.startOriginalPrice != ''">
+                and originalPrice <![CDATA[>=]]> ${customProduct.startOriginalPrice}
+            </if>
+            <if test="customProduct.endOriginalPrice != null and customProduct.endOriginalPrice != ''">
+                and originalPrice <![CDATA[<=]]> ${customProduct.endOriginalPrice}
+            </if>
+            <if test="customProduct.merchantId != null and customProduct.merchantId != ''">
+                and merchantId = ${customProduct.merchantId}
+            </if>
+            <if test="customProduct.startApplyDate != null and customProduct.startApplyDate != ''">
+                and applyDate <![CDATA[>=]]> STR_TO_DATE(#{customProduct.startApplyDate}, '%Y-%m-%d %H:%i;%S')
+            </if>
+            <if test="customProduct.endApplyDate != null and customProduct.endApplyDate != ''">
+                and applyDate <![CDATA[<=]]> STR_TO_DATE(#{customProduct.endApplyDate}, '%Y-%m-%d %H:%i;%S')
+            </if>
+            <if test="customProduct.startAuditDate != null and customProduct.startAuditDate != ''">
+                and auditDate <![CDATA[>=]]> STR_TO_DATE(#{customProduct.startAuditDate}, '%Y-%m-%d %H:%i;%S')
+            </if>
+            <if test="customProduct.endAuditDate != null and customProduct.endAuditDate != ''">
+                and auditDate <![CDATA[<=]]> STR_TO_DATE(#{customProduct.endAuditDate}, '%Y-%m-%d %H:%i;%S')
+            </if>
+            <if test="customProduct.auditState != null and customProduct.auditState != ''">
+                and auditState = ${customProduct.auditState}
+            </if>
+            <if test="customProduct.startStartDate != null and customProduct.startStartDate != ''">
+                and startTime <![CDATA[>=]]> STR_TO_DATE(#{customProduct.startStartDate}, '%Y-%m-%d %H:%i;%S')
+            </if>
+            <if test="customProduct.endStartDate != null and customProduct.endStartDate != ''">
+                and startTime <![CDATA[<=]]> STR_TO_DATE(#{customProduct.endStartDate}, '%Y-%m-%d %H:%i;%S')
+            </if>
+            <if test="customProduct.startEndDate != null and customProduct.startEndDate != ''">
+                and endTime <![CDATA[>=]]> STR_TO_DATE(#{customProduct.startEndDate}, '%Y-%m-%d %H:%i;%S')
+            </if>
+            <if test="customProduct.endEndDate != null and customProduct.endEndDate != ''">
+                and endTime <![CDATA[<=]]> STR_TO_DATE(#{customProduct.endEndDate}, '%Y-%m-%d %H:%i;%S')
+            </if>
+            <if test="customProduct.startProductCount != null and customProduct.startProductCount != ''">
+                and productCount <![CDATA[>=]]> ${customProduct.startProductCount}
+            </if>
+            <if test="customProduct.endProductCount != null and customProduct.endProductCount != ''">
+                and productCount <![CDATA[<=]]> ${customProduct.endProductCount}
+            </if>
+            <if test="customProduct.startStockCount != null and customProduct.startStockCount != ''">
+                and stockCount <![CDATA[>=]]> ${customProduct.startStockCount}
+            </if>
+            <if test="customProduct.endStockCount != null and customProduct.endStockCount != ''">
+                and stockCount <![CDATA[<=]]> ${customProduct.endStockCount}
+            </if>
+            <if test="customProduct.description != null and customProduct.description != ''">
+                and description LIKE %${customProduct.description}%
+            </if>
+        </if>
+    </sql>
+
+    <select id="listProduct" parameterType="productVo" resultType="product">
+        SELECT * FROM msProductInfo
+        <where>
+            <include refid="customsql"/>
+        </where>
+    </select>
+
+</mapper>

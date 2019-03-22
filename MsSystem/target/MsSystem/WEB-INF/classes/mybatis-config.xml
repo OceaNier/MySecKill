@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+        <!-- 别名定义 -->
+        <typeAlias type="com.oceanier.entity.test.Person" alias="person" />
+
+        <!-- 秒杀商家 -->
+        <typeAlias type="com.oceanier.entity.Merchant" alias="merchant" />
+        <typeAlias type="com.oceanier.vo.merchant.MerchantVo" alias="merchantVo" />
+
+        <!-- 用户 -->
+        <typeAlias type="com.oceanier.entity.User" alias="user" />
+        <typeAlias type="com.oceanier.vo.user.UserVo" alias="userVo" />
+
+        <!-- 秒杀商品 -->
+        <typeAlias type="com.oceanier.entity.Product" alias="product" />
+        <typeAlias type="com.oceanier.vo.product.ProductVo" alias="productVo" />
+
+        <!-- 秒杀商品详情 -->
+        <typeAlias type="com.oceanier.entity.ProductDetail" alias="productDetail" />
+        <typeAlias type="com.oceanier.vo.productDetail.ProductDetailVo" alias="productDetailVo" />
+
+        <!-- 秒杀订单 -->
+        <typeAlias type="com.oceanier.entity.Order" alias="order" />
+        <typeAlias type="com.oceanier.vo.order.OrderVo" alias="orderVo" />
+
+    </typeAliases>
+
+</configuration>
