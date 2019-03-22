@@ -2,8 +2,6 @@ package com.oceanier.vo.product;
 
 import com.oceanier.entity.Product;
 
-import java.util.Date;
-
 public class CustomProduct extends Product {
 
     //秒杀价格范围
