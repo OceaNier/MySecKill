@@ -1,6 +1,8 @@
 package com.oceanier.vo.merchant;
 
-public class MerchantVo{
+import java.io.Serializable;
+
+public class MerchantVo implements Serializable{
     private CustomMerchant customMerchant;
 
     public CustomMerchant getCustomMerchant() {

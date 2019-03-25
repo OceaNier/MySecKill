@@ -1,6 +1,8 @@
 package com.oceanier.vo.user;
 
-public class UserVo {
+import java.io.Serializable;
+
+public class UserVo implements Serializable {
     private CustomUser customUser;
 
     public CustomUser getCustomUser() {

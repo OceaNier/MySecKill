@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:protocol name="dubbo" port="20880"></dubbo:protocol>
+    <dubbo:application name="MS_SERVICE"/>
+    <dubbo:registry address="zookeeper://10.211.55.5:2181"/>
+
+    <dubbo:service interface="com.oceanier.service.MerchantService" ref="merchantServiceImpl"/>
+    <bean id="merchantServiceImpl" class="com.oceanier.service.MerchantServiceImpl"/>
+
+    <dubbo:service interface="com.oceanier.service.OrderService" ref="orderServiceImpl"/>
+    <bean id="orderServiceImpl" class="com.oceanier.service.OrderServiceImpl"/>
+
+    <dubbo:service interface="com.oceanier.service.ProductDetailService" ref="productDetailServiceImpl"/>
+    <bean id="productDetailServiceImpl" class="com.oceanier.service.ProductDetailServiceImpl"/>
+
+    <dubbo:service interface="com.oceanier.service.ProductService" ref="productServiceImpl"/>
+    <bean id="productServiceImpl" class="com.oceanier.service.ProductServiceImpl"/>
+
+    <dubbo:service interface="com.oceanier.service.UserService" ref="userServiceImpl"/>
+    <bean id="userServiceImpl" class="com.oceanier.service.UserServiceImpl"/>
+
+    <dubbo:service interface="com.oceanier.service.test.PersonService" ref="personServiceImpl"/>
+    <bean id="personServiceImpl" class="com.oceanier.service.test.PersonServiceImpl"/>
+
+    <dubbo:service interface="com.oceanier.service.pay.WechatPay" ref="wechatPayImpl"/>
+    <bean id="wechatPayImpl" class="com.oceanier.service.pay.WechatPayImpl"/>
+
+    <dubbo:service interface="com.oceanier.service.pay.AlipayPay" ref="alipayPayImpl"/>
+    <bean id="alipayPayImpl" class="com.oceanier.service.pay.AlipayPayImpl"/>
+
+    <dubbo:service interface="com.oceanier.service.pay.BankCardPay" ref="bankCardPayImpl"/>
+    <bean id="bankCardPayImpl" class="com.oceanier.service.pay.BankCardPayImpl"/>
+
+</beans>

@@ -1,6 +1,8 @@
 package com.oceanier.vo.product;
 
-public class ProductVo {
+import java.io.Serializable;
+
+public class ProductVo  implements Serializable {
     private CustomProduct customProduct;
 
     public CustomProduct getCustomProduct() {

@@ -1,4 +1,6 @@
 package com.oceanier.vo.productDetail;
 
-public class ProductDetailVo {
+import java.io.Serializable;
+
+public class ProductDetailVo implements Serializable {
 }

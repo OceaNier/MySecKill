@@ -1,6 +1,8 @@
 package com.oceanier.vo.order;
 
-public class OrderVo {
+import java.io.Serializable;
+
+public class OrderVo  implements Serializable {
     CustomOrder customOrder;
 
     public CustomOrder getCustomOrder() {
