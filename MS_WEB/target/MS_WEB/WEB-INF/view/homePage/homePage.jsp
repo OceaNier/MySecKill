@@ -12,7 +12,7 @@
     <title>欢迎您</title>
 </head>
 <body>
-欢迎：${user.userAccount}
+欢迎：<span id="userAccount"></span>
 <a href="/userRegisterLoginAction/toRegister">注册</a>
 <a href="/userRegisterLoginAction/toLogin">登陆</a>
 <a href="/userRegisterLoginAction/exit">退出登录</a>
@@ -41,13 +41,14 @@
         </tr>
     </c:forEach>
 </table>
-<script src="/MS_WEB/js/jquery-3.3.1.min.js"></script>
+<script src="/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
     $.ajax({
-        type: "get",
-        url: "getUser",
-        success: function (msg) {
-            alert("msg:" + msg)
+        type:"get",
+        url:"/pageHomeAction/getUser",
+        success:function(msg){
+            alert("I am an alert box!!")
+            $("#userAccount").html(msg);
         }
     });
 </script>

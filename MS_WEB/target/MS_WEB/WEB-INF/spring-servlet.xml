@@ -26,6 +26,6 @@
     </bean>
 
     <mvc:resources mapping="/html/**" location="/WEB-INF/html/" />
-    <mvc:resources mapping="/js/**" location="/WEB-INF/js/" />
+    <mvc:resources mapping="/js/**" location="/WEB-INF/view/homePage/js/" />
 
 </beans>
