@@ -84,7 +84,7 @@ public class PageHomeAction {
             if (entity != null) {
                 String html = EntityUtils.toString(entity);
                 File file = new File(htmlPath + "/index.html");//存到应用的static目录下
-                Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
+                Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "GBK"));
                 writer.write(html);
                 writer.flush();
                 writer.close();

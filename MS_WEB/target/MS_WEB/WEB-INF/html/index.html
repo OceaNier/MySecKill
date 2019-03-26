@@ -1,0 +1,59 @@
+
+
+
+<html>
+<head>
+    <title>欢迎您</title>
+</head>
+<body>
+欢迎：
+<a href="/userRegisterLoginAction/toRegister">注册</a>
+<a href="/userRegisterLoginAction/toLogin">登陆</a>
+<a href="/userRegisterLoginAction/exit">退出登录</a>
+<a href="/orderAction/queryOrderByUserId">订单查询</a>
+
+<table border="2">
+    <tr>
+        <td>商品标题</td>
+        <td>图片地址</td>
+        <td>秒杀价格</td>
+        <td>原价</td>
+        <td>秒杀开始时间</td>
+        <td>秒杀结束时间</td>
+        <td>操作</td>
+
+    </tr>
+    
+        <tr>
+            <td>鼠标</td>
+            <td>sadasf</td>
+            <td>123</td>
+            <td>333</td>
+            <td>Wed Mar 13 00:00:00 CST 2019</td>
+            <td>Wed Sep 09 00:00:00 CST 2020</td>
+            <td><a href="viewProductDetail?productId=3">&nbsp查看&nbsp</a></td>
+        </tr>
+    
+        <tr>
+            <td>鼠标</td>
+            <td>sadasf</td>
+            <td>123</td>
+            <td>333</td>
+            <td>Thu Aug 22 00:00:00 CST 2019</td>
+            <td>Thu Aug 29 00:00:00 CST 2019</td>
+            <td><a href="viewProductDetail?productId=4">&nbsp查看&nbsp</a></td>
+        </tr>
+    
+</table>
+<script src="/MS_WEB/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $.ajax({
+        type: "get",
+        url: "getUser",
+        success: function (msg) {
+            alert("msg:" + msg)
+        }
+    });
+</script>
+</body>
+</html>
