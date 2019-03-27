@@ -47,7 +47,7 @@
         type:"get",
         url:"/pageHomeAction/getUser",
         success:function(msg){
-            alert("I am an alert box!!")
+            // alert("I am an alert box!!")
             $("#userAccount").html(msg);
         }
     });

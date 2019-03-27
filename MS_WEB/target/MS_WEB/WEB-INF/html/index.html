@@ -1,0 +1,70 @@
+
+
+
+<html>
+<head>
+    <title>欢迎您</title>
+</head>
+<body>
+欢迎：<span id="userAccount"></span>
+<a href="/userRegisterLoginAction/toRegister">注册</a>
+<a href="/userRegisterLoginAction/toLogin">登陆</a>
+<a href="/userRegisterLoginAction/exit">退出登录</a>
+<a href="/orderAction/queryOrderByUserId">订单查询</a>
+
+<table border="2">
+    <tr>
+        <td>商品标题</td>
+        <td>图片地址</td>
+        <td>秒杀价格</td>
+        <td>原价</td>
+        <td>秒杀开始时间</td>
+        <td>秒杀结束时间</td>
+        <td>操作</td>
+
+    </tr>
+    
+        <tr>
+            <td>鼠标</td>
+            <td>uuuu</td>
+            <td>123</td>
+            <td>333</td>
+            <td>Sun Mar 03 00:00:00 CST 2019</td>
+            <td>Thu Mar 12 00:00:00 CST 2020</td>
+            <td><a href="viewProductDetail?productId=1">&nbsp查看&nbsp</a></td>
+        </tr>
+    
+        <tr>
+            <td>鼠标</td>
+            <td>sadasf</td>
+            <td>123</td>
+            <td>333</td>
+            <td>Wed Mar 13 00:00:00 CST 2019</td>
+            <td>Wed Sep 09 00:00:00 CST 2020</td>
+            <td><a href="viewProductDetail?productId=3">&nbsp查看&nbsp</a></td>
+        </tr>
+    
+        <tr>
+            <td>键盘</td>
+            <td>www</td>
+            <td>100</td>
+            <td>126</td>
+            <td>Tue Mar 26 18:42:07 CST 2019</td>
+            <td>Sun Mar 31 18:42:12 CST 2019</td>
+            <td><a href="viewProductDetail?productId=5">&nbsp查看&nbsp</a></td>
+        </tr>
+    
+</table>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $.ajax({
+        type:"get",
+        url:"/pageHomeAction/getUser",
+        success:function(msg){
+            // alert("I am an alert box!!")
+            $("#userAccount").html(msg);
+        }
+    });
+</script>
+</body>
+</html>
