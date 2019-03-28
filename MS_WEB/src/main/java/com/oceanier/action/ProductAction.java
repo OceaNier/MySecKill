@@ -2,6 +2,7 @@ package com.oceanier.action;
 
 import com.oceanier.entity.Product;
 import com.oceanier.service.ProductService;
+import com.oceanier.service.cache.ProductCacheService;
 import com.oceanier.util.DateFormatUtil;
 import com.oceanier.vo.product.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class ProductAction {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private ProductCacheService productCacheService;
 
     @RequestMapping("toApplyProduct")
     public String toApplyProduct() {
@@ -85,8 +88,9 @@ public class ProductAction {
         return "redirect:listProduct";
     }
 
-    @RequestMapping("query")
+    @RequestMapping("queryProductById")
     public String queryProductById(HttpServletRequest request, int id) {
+        productCacheService.queryProductById(id);
         Product product = productService.queryProductById(id);
         request.setAttribute("product", product);
         return "product/view";

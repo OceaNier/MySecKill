@@ -16,4 +16,8 @@
     <dubbo:reference id="alipayPay" interface="com.oceanier.service.pay.AlipayPay"/>
     <dubbo:reference id="bankCardPay" interface="com.oceanier.service.pay.BankCardPay"/>
 
+    <!-- 缓存服务 包括商品查询和商品详情查询 -->
+    <dubbo:reference id="productDetailCacheService" interface="com.oceanier.service.cache.ProductDetailCacheService"/>
+    <dubbo:reference id="productCacheService" interface="com.oceanier.service.cache.ProductCacheService"/>
+
 </beans>

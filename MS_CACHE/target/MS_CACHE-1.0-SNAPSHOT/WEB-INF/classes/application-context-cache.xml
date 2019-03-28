@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:protocol name="dubbo" port="20880"></dubbo:protocol>
+    <dubbo:application name="MS_CACHE"/>
+    <dubbo:registry address="zookeeper://10.211.55.5:2181" />
+
+    <dubbo:reference id="productDetailService" interface="com.oceanier.service.ProductDetailService"/>
+    <dubbo:reference id="productService" interface="com.oceanier.service.ProductService"/>
+
+    <dubbo:service interface="com.oceanier.service.cache.ProductDetailCacheService" ref="productDetailCacheServiceImpl"/>
+    <bean id="productDetailCacheServiceImpl" class="com.oceanier.service.ProductDetailCacheServiceImpl"/>
+
+    <dubbo:service interface="com.oceanier.service.cache.ProductCacheService" ref="productCacheServiceImpl"/>
+    <bean id="productCacheServiceImpl" class="com.oceanier.service.ProductCacheServiceImpl"/>
+
+</beans>

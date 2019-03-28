@@ -2,6 +2,7 @@ package com.oceanier.action;
 
 import com.oceanier.entity.ProductDetail;
 import com.oceanier.service.ProductDetailService;
+import com.oceanier.service.cache.ProductDetailCacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,8 @@ public class ProductDetailAction {
 
     @Autowired
     ProductDetailService productDetailService;
+    @Autowired
+    ProductDetailCacheService productDetailCacheService;
 
     @RequestMapping("toAdd")
     public String toAddProductDetail(HttpServletRequest request, int productId, int merchantId) {
@@ -53,6 +56,7 @@ public class ProductDetailAction {
 
     @RequestMapping("query")
     public String queryProductDetailById(HttpServletRequest request, int productId) {
+        productDetailCacheService.queryProductDetailById(productId);
         ProductDetail productDetail = productDetailService.queryProductDetailById(productId);
         request.setAttribute("productDetail", productDetail);
         return "productDetail/view";
