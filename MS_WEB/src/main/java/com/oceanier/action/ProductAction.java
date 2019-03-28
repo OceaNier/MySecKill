@@ -21,9 +21,9 @@ import java.util.List;
 public class ProductAction {
 
     @Autowired
-    private ProductService productService;
+    ProductService productService;
     @Autowired
-    private ProductCacheService productCacheService;
+    ProductCacheService productCacheService;
 
     @RequestMapping("toApplyProduct")
     public String toApplyProduct() {
@@ -88,10 +88,9 @@ public class ProductAction {
         return "redirect:listProduct";
     }
 
-    @RequestMapping("queryProductById")
+    @RequestMapping("query")
     public String queryProductById(HttpServletRequest request, int id) {
-        productCacheService.queryProductById(id);
-        Product product = productService.queryProductById(id);
+        Product product = productCacheService.queryProductById(id);
         request.setAttribute("product", product);
         return "product/view";
     }

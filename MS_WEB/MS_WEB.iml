@@ -6,6 +6,12 @@
         <fileset id="fileset" name="Application Context Consumer" removed="false">
           <file>file://$MODULE_DIR$/src/main/resource/application-context-consumer.xml</file>
         </fileset>
+        <fileset id="fileset2" name="Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resource/application-context.xml</file>
+        </fileset>
+        <fileset id="fileset3" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/../MS_CACHE/src/main/resources/spring-ehcache.xml</file>
+        </fileset>
       </configuration>
     </facet>
     <facet type="web" name="Web">
@@ -16,10 +22,6 @@
         <webroots>
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
         </webroots>
-        <sourceRoots>
-          <root url="file://$MODULE_DIR$/src/main/java" />
-          <root url="file://$MODULE_DIR$/src/main/resource" />
-        </sourceRoots>
       </configuration>
     </facet>
   </component>

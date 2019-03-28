@@ -1,8 +1,8 @@
-package com.oceanier.service.cache;
+package com.oceanier.service.redis;
 
 import com.oceanier.entity.ProductDetail;
 
-public interface ProductDetailCacheService {
+public interface ProductDetailRedisService {
     public ProductDetail queryProductDetailById(int productId);
 
     public String getDataFromDB(String key);

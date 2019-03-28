@@ -1,6 +1,7 @@
 package com.oceanier.test;
 
 import com.oceanier.ehcache.EhcacheService;
+import com.oceanier.service.cache.ProductCacheService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -8,6 +9,8 @@ public class EhcacheServiceTest extends SpringTestCase {
 
     @Autowired
     private EhcacheService ehcacheService;
+    @Autowired
+    private ProductCacheService productCacheService;
 
     // 有效时间是5秒，第一次和第二次获取的值是一样的，因第三次是5秒之后所以会获取新的值
     @Test
@@ -51,6 +54,12 @@ public class EhcacheServiceTest extends SpringTestCase {
     public void testIsReserved(){
         ehcacheService.isReserved("1239879");
         ehcacheService.isReserved("1239879");
+    }
+
+    @Test
+    public void queryById(){
+        productCacheService.queryProductById(1);
+        productCacheService.queryProductById(1);
     }
 
     @Test

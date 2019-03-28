@@ -56,8 +56,7 @@ public class ProductDetailAction {
 
     @RequestMapping("query")
     public String queryProductDetailById(HttpServletRequest request, int productId) {
-        productDetailCacheService.queryProductDetailById(productId);
-        ProductDetail productDetail = productDetailService.queryProductDetailById(productId);
+        ProductDetail productDetail = productDetailCacheService.queryProductDetailById(productId);
         request.setAttribute("productDetail", productDetail);
         return "productDetail/view";
     }
