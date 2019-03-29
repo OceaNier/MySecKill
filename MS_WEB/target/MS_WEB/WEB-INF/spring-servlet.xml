@@ -28,11 +28,10 @@
     </bean>
 
     <!-- 启用缓存注解开关 -->
-    <cache:annotation-driven cache-manager="cacheManager" proxy-target-class="false"/>
+    <cache:annotation-driven cache-manager="cacheManager"/>
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
         <property name="cacheManager" ref="ehcache"/>
     </bean>
-
     <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
         <property name="configLocation" value="classpath:ms-ehcache.xml"/>
     </bean>

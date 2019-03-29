@@ -4,7 +4,7 @@
        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <dubbo:application name="MS_WEB"/>
-    <dubbo:registry address="zookeeper://10.211.55.5:2181" />
+    <dubbo:registry address="zookeeper://10.211.55.5:2181"/>
 
     <dubbo:reference id="merchantService" interface="com.oceanier.service.MerchantService"/>
     <dubbo:reference id="orderService" interface="com.oceanier.service.OrderService"/>
@@ -19,5 +19,9 @@
     <!-- 缓存服务 包括商品查询和商品详情查询 -->
     <dubbo:reference id="productDetailCacheService" interface="com.oceanier.service.cache.ProductDetailCacheService"/>
     <dubbo:reference id="productCacheService" interface="com.oceanier.service.cache.ProductCacheService"/>
+
+    <!-- redis缓存，一级缓存 -->
+    <dubbo:reference id="productRedisService" interface="com.oceanier.redis.ProductRedisService"/>
+    <dubbo:reference id="productDetailRedisService" interface="com.oceanier.redis.ProductDetailRedisService"/>
 
 </beans>

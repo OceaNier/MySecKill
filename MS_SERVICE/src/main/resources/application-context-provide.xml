@@ -34,10 +34,17 @@
     <dubbo:service interface="com.oceanier.service.pay.BankCardPay" ref="bankCardPayImpl"/>
     <bean id="bankCardPayImpl" class="com.oceanier.service.pay.BankCardPayImpl"/>
 
-    <dubbo:service interface="com.oceanier.service.cache.ProductDetailCacheService" ref="productDetailCacheServiceImpl"/>
+    <!-- ehcache缓存 -->
+    <dubbo:service interface="com.oceanier.service.cache.ProductDetailCacheService"
+                   ref="productDetailCacheServiceImpl"/>
     <bean id="productDetailCacheServiceImpl" class="com.oceanier.service.cache.ProductDetailCacheServiceImpl"/>
-
     <dubbo:service interface="com.oceanier.service.cache.ProductCacheService" ref="productCacheServiceImpl"/>
     <bean id="productCacheServiceImpl" class="com.oceanier.service.cache.ProductCacheServiceImpl"/>
+
+    <!-- redis缓存 -->
+    <dubbo:service interface="com.oceanier.redis.ProductRedisService" ref="productRedisServiceImpl"/>
+    <bean id="productRedisServiceImpl" class="com.oceanier.redis.ProductRedisServiceImpl"/>
+    <dubbo:service interface="com.oceanier.redis.ProductDetailRedisService" ref="productDetailRedisServiceImpl"/>
+    <bean id="productDetailRedisServiceImpl" class="com.oceanier.redis.ProductDetailRedisServiceImpl"/>
 
 </beans>

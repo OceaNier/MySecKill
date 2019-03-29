@@ -1,27 +1,32 @@
 package com.oceanier.redis;
 
 import com.oceanier.entity.ProductDetail;
-import com.oceanier.service.ProductDetailService;
-import com.oceanier.service.redis.ProductDetailRedisService;
+import com.oceanier.service.cache.ProductDetailCacheService;
+import com.oceanier.util.RedisUtil;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProductDetailRedisServiceImpl implements ProductDetailRedisService {
 
     @Autowired
-    ProductDetailService productDetailService;
+    private ProductDetailCacheService productDetailCacheService;
 
-    @Cacheable(value = "MS_Cache", key = "'productDetail:' + #id")
+    @Autowired
+    private RedisUtil redisUtil;
+
     public ProductDetail queryProductDetailById(int productId) {
-        System.out.println("come into queryProductDetailById");
-        return productDetailService.queryProductDetailById(productId);
-    }
-
-    @Cacheable(value = "HelloWorldCache", key = "#key")
-    public String getDataFromDB(String key) {
-        System.out.println("从数据库中获取数据...");
-        return key + ":" + String.valueOf(Math.round(Math.random() * 1000000));
+        ProductDetail productDetail = null;
+        Object result = redisUtil.get("productDetail:" + productId);
+        if (result == null) {
+            System.out.println("come into cache");
+            productDetail = productDetailCacheService.queryProductDetailById(productId);
+            redisUtil.set("productDetail:" + productId, productDetail);
+        } else {
+            System.out.println("come into redis");
+            productDetail = (ProductDetail) result;
+        }
+        return productDetail;
     }
 }

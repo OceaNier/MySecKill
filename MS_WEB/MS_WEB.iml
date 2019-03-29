@@ -12,6 +12,9 @@
         <fileset id="fileset3" name="Spring Application Context" removed="false">
           <file>file://$MODULE_DIR$/../MS_CACHE/src/main/resources/spring-ehcache.xml</file>
         </fileset>
+        <fileset id="fileset4" name="Spring Application Context (2)" removed="false">
+          <file>file://$MODULE_DIR$/../MS_REDIS/src/main/resources/applicationContext-redis.xml</file>
+        </fileset>
       </configuration>
     </facet>
     <facet type="web" name="Web">
@@ -41,6 +44,17 @@
     <orderEntry type="module" module-name="MS_SERVICE" />
     <orderEntry type="module" module-name="MS_CACHE" />
     <orderEntry type="library" name="Maven: net.sf.ehcache:ehcache:2.10.2" level="project" />
+    <orderEntry type="module" module-name="MS_REDIS" />
+    <orderEntry type="library" name="Maven: redis.clients:jedis:2.9.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-pool2:2.4.2" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-redis:1.6.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-oxm:4.1.9.RELEASE" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:jcl-over-slf4j:1.7.21" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.7.5" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.7.5" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.7.5" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.4" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.4" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.2" level="project" />
     <orderEntry type="library" name="Maven: org.mybatis:mybatis:3.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.mybatis:mybatis-spring:1.3.0" level="project" />

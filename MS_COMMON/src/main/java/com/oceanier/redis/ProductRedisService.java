@@ -1,4 +1,4 @@
-package com.oceanier.service.redis;
+package com.oceanier.redis;
 
 import com.oceanier.entity.Product;
 

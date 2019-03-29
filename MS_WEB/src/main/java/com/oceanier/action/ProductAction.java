@@ -1,6 +1,7 @@
 package com.oceanier.action;
 
 import com.oceanier.entity.Product;
+import com.oceanier.redis.ProductRedisService;
 import com.oceanier.service.ProductService;
 import com.oceanier.service.cache.ProductCacheService;
 import com.oceanier.util.DateFormatUtil;
@@ -23,7 +24,7 @@ public class ProductAction {
     @Autowired
     ProductService productService;
     @Autowired
-    ProductCacheService productCacheService;
+    ProductRedisService productRedisService;
 
     @RequestMapping("toApplyProduct")
     public String toApplyProduct() {
@@ -90,7 +91,7 @@ public class ProductAction {
 
     @RequestMapping("query")
     public String queryProductById(HttpServletRequest request, int id) {
-        Product product = productCacheService.queryProductById(id);
+        Product product = productRedisService.queryProductById(id);
         request.setAttribute("product", product);
         return "product/view";
     }

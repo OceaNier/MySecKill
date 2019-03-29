@@ -18,9 +18,4 @@ public class ProductDetailCacheServiceImpl implements ProductDetailCacheService 
         return productDetailService.queryProductDetailById(productId);
     }
 
-    @Cacheable(value = "HelloWorldCache", key = "#key")
-    public String getDataFromDB(String key) {
-        System.out.println("从数据库中获取数据...");
-        return key + ":" + String.valueOf(Math.round(Math.random() * 1000000));
-    }
 }
