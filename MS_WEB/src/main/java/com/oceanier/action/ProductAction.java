@@ -59,6 +59,7 @@ public class ProductAction {
         return "product/update";
     }
 
+    //TODO: 更新操作删除缓存
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(Product product) {
         Date startTime = DateFormatUtil.stringToDate(product.getStartTimeString());

@@ -6,13 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
-<form action="/orderAction/toPayOrder">
-    购买数量：<input type="text" name="count">
+<form action="#">
+    购买数量：<input type="text" name="count"><span id="remainTime"></span>
     <input type="hidden" name="id" value="${product.id}">
     <table border="1">
         <tr>
@@ -30,8 +31,10 @@
             <td>${product.productPicture}</td>
             <td>${product.miaoshaPrice}</td>
             <td>${product.originalPrice}</td>
-            <td>${product.startTime}</td>
-            <td>${product.endTime}</td>
+            <td><span id="startTime"><fmt:formatDate value="${product.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
+            </td>
+            <td><span id="endTime"><fmt:formatDate value="${product.endTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
+            </td>
             <td>${product.productCount}</td>
             <td>${product.stockCount}</td>
         </tr>
@@ -56,14 +59,16 @@
         </tr>
     </table>
 
-    <input type="button" value="立即购买" onclick="submit(this)">
+    <input id="sellBtn" type="button" value="立即购买" onclick="submit(this)">
 </form>
 </body>
-
+<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
     function submit(obj) {
         obj.parent.submit();
     }
+
+    document.write("<script src='/js/remain.js?random=" + Math.random() + " '></s" + "cript>")
 </script>
 
 </html>

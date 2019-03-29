@@ -41,6 +41,7 @@ public class ProductDetailAction {
         return "productDetail/update";
     }
 
+    //TODO: 更新操作删除缓存
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(ProductDetail productDetail) {
         productDetailService.updateProductDetail(productDetail);

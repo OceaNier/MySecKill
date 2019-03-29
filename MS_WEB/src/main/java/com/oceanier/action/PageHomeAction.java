@@ -108,4 +108,49 @@ public class PageHomeAction {
         }
         return account;
     }
+
+    @RequestMapping("produceJs")
+    public void produceJs(HttpServletRequest request) {
+        String jsPath = request.getRealPath("/WEB-INF/js");
+        String jsContent = "function remainTime(){" + "\n" +
+                "var startTime = $(\"#startTime\").html();" + "\n" +
+                "var s1 = new Date(startTime.replace(\"/-/g\",\"/\"));" + "\n" +
+                "var s2 = new Date();" + "\n" +
+                "var date3 = s1.getTime() - s2.getTime();" + "\n" +
+                "if(date3 > 2){" + "\n" +
+                "$(\"#sellBtn\").attr({\"disabled\":\"disabled\"});" + "\n" +
+                "var days = Math.floor(date3/(24*3600*1000));" + "\n" +
+                "var hours = Math.floor(date3%(24*3600*1000)/(3600*1000));" + "\n" +
+                "var minutes = Math.floor(date3%(3600*1000)/(60*1000));" + "\n" +
+                "var seconds = Math.floor(date3%(60*1000)/1000)" + "\n" +
+                "$(\"#remainTime\").html(\"剩余\"+days+\"天\"+ hours + \" 小时\" + minutes + \" 分钟\"+seconds+\"秒\");" + "\n" +
+                "}else{" + "\n" +
+                "$(\"#remainTime\").html(\"\");" + "\n" +
+                "$(\"#sellBtn\").removeAttr(\"disabled\");" + "\n" +
+                "$(\"#sellBtn\").parent().attr(\"action\",\"/orderAction/toPayOrder\");" + "\n" +
+                "}" + "\n" +
+                "}" + "\n" +
+                "setInterval('remainTime()',500);";
+
+        File file = new File(jsPath + "/remain.js");
+        Writer writer = null;
+        try {
+            writer = new BufferedWriter(
+                    new OutputStreamWriter(
+                            new FileOutputStream(file), "utf-8"));
+            writer.write(jsContent);
+            writer.flush();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            if (writer != null)
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+        }
+    }
 }
