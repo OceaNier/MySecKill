@@ -25,7 +25,7 @@
     收货人电话：<input name="receivingPhone"><br>
     收货人：<input name="receivingName"><br>
 
-    <input type="button" value="立即付款" onclick="submit(this)">
+    <input type="button" value="提交订单" onclick="submit(this)">
 </form>
 
 </body>

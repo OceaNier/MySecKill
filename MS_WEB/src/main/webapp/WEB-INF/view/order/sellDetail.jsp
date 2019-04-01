@@ -13,7 +13,7 @@
 </head>
 <body>
 <form action="#">
-    购买数量：<input type="text" name="count"><span id="remainTime"></span>
+    购买数量：1 <input type="hidden" name="count" value="1"><span id="remainTime"></span>
     <input type="hidden" name="id" value="${product.id}">
     <table border="1">
         <tr>

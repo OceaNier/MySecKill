@@ -4,6 +4,7 @@ import com.oceanier.entity.Merchant;
 import com.oceanier.entity.Order;
 import com.oceanier.entity.Product;
 import com.oceanier.entity.User;
+import com.oceanier.redis.ProductRedisService;
 import com.oceanier.service.OrderService;
 import com.oceanier.service.ProductService;
 import com.oceanier.service.pay.*;
@@ -33,6 +34,9 @@ public class OrderAction {
     @Autowired
     BankCardPay bankCardPay;
 
+    @Autowired
+    ProductRedisService productRedisService;
+
     @RequestMapping(value = "payOrder", method = RequestMethod.POST)
     public String payOrder(Order order) {
         Date now = new Date();
@@ -46,7 +50,7 @@ public class OrderAction {
 
     @RequestMapping("toPayOrder")
     public String toPayOrder(HttpServletRequest request, int id, int count) {
-        Product product = productService.queryProductById(id);
+        Product product = productRedisService.queryProductById(id);
         int payAmount = product.getMiaoshaPrice() * count;
         request.setAttribute("product", product);
         request.setAttribute("count", count);

@@ -3,6 +3,8 @@ package com.oceanier.action;
 import com.oceanier.entity.Product;
 import com.oceanier.entity.ProductDetail;
 import com.oceanier.entity.User;
+import com.oceanier.redis.ProductDetailRedisService;
+import com.oceanier.redis.ProductRedisService;
 import com.oceanier.service.OrderService;
 import com.oceanier.service.ProductDetailService;
 import com.oceanier.service.ProductService;
@@ -39,6 +41,12 @@ public class PageHomeAction {
     @Autowired
     OrderService orderService;
 
+    @Autowired
+    ProductDetailRedisService productDetailRedisService;
+
+    @Autowired
+    ProductRedisService productRedisService;
+
     @RequestMapping("toHome")
     public String toHome(HttpServletRequest request) {
         ProductVo productVo = new ProductVo();
@@ -55,8 +63,8 @@ public class PageHomeAction {
 
     @RequestMapping("viewProductDetail")
     public String viewProductDetail(HttpServletRequest request, int productId) {
-        ProductDetail productDetail = productDetailService.queryProductDetailById(productId);
-        Product product = productService.queryProductById(productId);
+        ProductDetail productDetail = productDetailRedisService.queryProductDetailById(productId);
+        Product product = productRedisService.queryProductById(productId);
         request.setAttribute("product", product);
         request.setAttribute("productDetail", productDetail);
         return "order/sellDetail";
