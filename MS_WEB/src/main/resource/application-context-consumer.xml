@@ -24,4 +24,6 @@
     <dubbo:reference id="productRedisService" interface="com.oceanier.redis.ProductRedisService"/>
     <dubbo:reference id="productDetailRedisService" interface="com.oceanier.redis.ProductDetailRedisService"/>
 
+    <dubbo:reference id="orderRedisService" interface="com.oceanier.redis.OrderRedisService"/>
+
 </beans>

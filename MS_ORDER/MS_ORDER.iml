@@ -6,6 +6,9 @@
         <fileset id="fileset" name="Application Context" removed="false">
           <file>file://$MODULE_DIR$/src/main/resources/application-context.xml</file>
         </fileset>
+        <fileset id="fileset2" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/application-context-rabbitmq.xml</file>
+        </fileset>
       </configuration>
     </facet>
   </component>

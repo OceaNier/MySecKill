@@ -571,4 +571,15 @@ public class RedisUtil {
         }
     }
 
+    public long getKeyListSize(String key) {
+        return redisTemplate.opsForList().size(key);
+    }
+
+    public long pushList(String key, String value) {
+        return redisTemplate.opsForList().leftPush(key, value);
+    }
+
+    public Set<String> getKeys(String key) {
+        return redisTemplate.keys(key + "*");
+    }
 } 

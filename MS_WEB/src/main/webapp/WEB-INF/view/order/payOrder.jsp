@@ -20,6 +20,7 @@
     <input type="hidden" name="merchantId" value="${product.merchantId}">
     <input type="hidden" name="payAmount" value="${payAmount}">
     <input type="hidden" name="count" value="${count}">
+    <input type="hidden" name="stockCount" value="${product.stockCount}">
 
     收货人地址：<input name="receivingAddress"><br>
     收货人电话：<input name="receivingPhone"><br>

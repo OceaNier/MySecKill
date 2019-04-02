@@ -14,7 +14,7 @@
                         http://www.springframework.org/schema/cache/spring-cache-4.2.xsd">
 
     <!-- 加载配置文件 -->
-    <context:property-placeholder location="classpath:redis.properties"/>
+    <context:property-placeholder location="classpath:redis.properties" ignore-unresolvable="true"/>
     <!-- redis连接池配置-->
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <!--最大空闲数-->
@@ -50,7 +50,7 @@
         <property name="timeout" value="10000"></property>
     </bean>
     <!--redis操作模版,使用该对象可以操作redis  -->
-    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
         <property name="connectionFactory" ref="jedisConnectionFactory"/>
         <!--如果不配置Serializer，那么存储的时候缺省使用String，如果用User类型存储，那么会提示错误User can't cast to String！！  -->
         <property name="keySerializer">

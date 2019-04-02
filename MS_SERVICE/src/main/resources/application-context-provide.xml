@@ -13,6 +13,9 @@
     <dubbo:service interface="com.oceanier.service.OrderService" ref="orderServiceImpl"/>
     <bean id="orderServiceImpl" class="com.oceanier.service.OrderServiceImpl"/>
 
+    <dubbo:service interface="com.oceanier.redis.OrderRedisService" ref="orderRedisServiceImpl"/>
+    <bean id="orderRedisServiceImpl" class="com.oceanier.redis.OrderRedisServiceImpl"/>
+
     <dubbo:service interface="com.oceanier.service.ProductDetailService" ref="productDetailServiceImpl"/>
     <bean id="productDetailServiceImpl" class="com.oceanier.service.ProductDetailServiceImpl"/>
 

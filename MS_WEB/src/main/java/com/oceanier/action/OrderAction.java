@@ -4,10 +4,12 @@ import com.oceanier.entity.Merchant;
 import com.oceanier.entity.Order;
 import com.oceanier.entity.Product;
 import com.oceanier.entity.User;
+import com.oceanier.redis.OrderRedisService;
 import com.oceanier.redis.ProductRedisService;
 import com.oceanier.service.OrderService;
 import com.oceanier.service.ProductService;
 import com.oceanier.service.pay.*;
+import com.oceanier.vo.order.CustomOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 @Controller
 @RequestMapping("orderAction")
@@ -37,15 +38,36 @@ public class OrderAction {
     @Autowired
     ProductRedisService productRedisService;
 
+    @Autowired
+    OrderRedisService orderRedisService;
+
     @RequestMapping(value = "payOrder", method = RequestMethod.POST)
-    public String payOrder(Order order) {
-        Date now = new Date();
-        order.setCreateTime(now);
-        order.setPayState(1);
-        String tradeSerialNumber = UUID.randomUUID().toString();
-        order.setTradeSerialNumber(tradeSerialNumber);
-        orderService.insertOrder(order);
-        return "redirect:/pageHomeAction/toHome";
+    public String payOrder(CustomOrder order, HttpServletRequest request) {
+        String returnUrl = "redirect:/pageHomeAction/toHome";
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            Map<String, Object> resultMap = orderRedisService.secKill(user.getId(), order.getProductId(), order);
+            boolean success = (boolean) resultMap.get("success");
+            if (success) {
+                System.out.println("秒杀成功！");
+                Map<String, String> dataMap = (Map<String, String>) resultMap.get("dataMap");
+                String merchantId = dataMap.get("merchantId");
+                String payAmount = dataMap.get("payAmount");
+                String tradeSerialNumber = dataMap.get("tradeSerialNumber");
+                String productId = dataMap.get("productId");
+                String userId = dataMap.get("userId");
+
+                returnUrl = "redirect:/orderAction/toPayWithOrder?userId=" + userId + "&productId=" + productId + "&tradeSerialNumber=" + tradeSerialNumber + "&payAmount=" + payAmount + "&merchantId=" + merchantId;
+            } else {
+                System.out.println("秒杀失败！");
+
+            }
+        } else {
+            request.setAttribute("errorInfo", "您还未登录，请先登录！");
+            returnUrl = "user/userLogin";
+        }
+        return returnUrl;
     }
 
     @RequestMapping("toPayOrder")
@@ -72,7 +94,7 @@ public class OrderAction {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user != null) {
-            List<Order> list = orderService.queryOrderByUserId(user.getId());
+            List<Order> list = orderRedisService.queryOrderByUserId(user.getId());
             request.setAttribute("list", list);
             returnUrl = "order/listOrder";
         } else {
@@ -97,8 +119,10 @@ public class OrderAction {
     }
 
     @RequestMapping(value = "toPayWithOrder")
-    public String toPayWithOrder(HttpServletRequest request, int id, String tradeSerialNumber, int payAmount) {
-        request.setAttribute("id", id);
+    public String toPayWithOrder(HttpServletRequest request, int userId, int productId, String tradeSerialNumber, int payAmount, int merchantId) {
+        request.setAttribute("userId", userId);
+        request.setAttribute("productId", productId);
+        request.setAttribute("merchantId", merchantId);
         request.setAttribute("tradeSerialNumber", tradeSerialNumber);
         request.setAttribute("payAmount", payAmount);
         return "order/payReal";
@@ -110,7 +134,7 @@ public class OrderAction {
      * @return
      */
     @RequestMapping(value = "payWithOrder")
-    public String payWithOrder(int payType, int id, String tradeSerialNumber, int payAmount) {
+    public String payWithOrder(int payType, int userId, int productId, int merchantId, String tradeSerialNumber, int payAmount) {
         int payState = 1;//默认支付失败
         if (payType == 1) {
             payState = alipayPay.payWithOrder(tradeSerialNumber, payAmount);
@@ -121,7 +145,12 @@ public class OrderAction {
         }
 
         if (payState == 2) {
-            orderService.updateOrderPayState(payState, id, payType);
+            boolean success = orderRedisService.payOrder(userId, productId, merchantId, tradeSerialNumber, payAmount);
+            if(success){
+                System.out.println("支付成功！");
+            }else {
+                System.out.println("保存失败！");
+            }
         }
         return "redirect:queryOrderByUserId";
     }
