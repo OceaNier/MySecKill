@@ -9,7 +9,7 @@ import java.util.Map;
 public interface OrderRedisService {
     Map<String, Object> secKill(int userId, int productId, CustomOrder order);
 
-    boolean payOrder(int userId, int productId, int merchantId, String tradeSerialNumber, int payAmount);
+    boolean payOrder(int payType, int userId, int productId, int merchantId, String tradeSerialNumber, int payAmount);
 
     List<Order> queryOrderByUserId(int userId);
 }

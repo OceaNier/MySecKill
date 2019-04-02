@@ -3,6 +3,7 @@ package com.oceanier.dao;
 import com.oceanier.entity.Order;
 import com.oceanier.vo.order.OrderVo;
 
+import java.util.Date;
 import java.util.List;
 
 public interface OrderDao {
@@ -14,6 +15,8 @@ public interface OrderDao {
     void deleteOrderById(int id);
 
     void updateOrderPayState(OrderVo orderVo);
+
+    void updateOrderByTradeSerialNumber(OrderVo orderVo);
 
     List<Order> queryOrderByUserId(int userId);
 

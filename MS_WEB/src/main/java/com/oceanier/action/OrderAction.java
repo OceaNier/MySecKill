@@ -145,10 +145,10 @@ public class OrderAction {
         }
 
         if (payState == 2) {
-            boolean success = orderRedisService.payOrder(userId, productId, merchantId, tradeSerialNumber, payAmount);
-            if(success){
+            boolean success = orderRedisService.payOrder(payType, userId, productId, merchantId, tradeSerialNumber, payAmount);
+            if (success) {
                 System.out.println("支付成功！");
-            }else {
+            } else {
                 System.out.println("保存失败！");
             }
         }

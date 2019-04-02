@@ -21,6 +21,10 @@
         UPDATE msOrder SET payState=#{customOrder.payState},payType=#{customOrder.payType} WHERE id=#{customOrder.id}
     </update>
 
+    <update id="updateOrderByTradeSerialNumber" parameterType="orderVo">
+        UPDATE msOrder SET payState=#{customOrder.payState},payType=#{customOrder.payType},payTime=#{customOrder.payTime} WHERE tradeSerialNumber=#{customOrder.tradeSerialNumber}
+    </update>
+
     <!-- 申请秒杀商品 -->
     <insert id="insertOrder" parameterType="order">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">

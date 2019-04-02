@@ -4,6 +4,7 @@ import com.oceanier.entity.Order;
 import com.oceanier.util.DateFormatUtil;
 import com.oceanier.util.RedisUtil;
 import com.oceanier.vo.order.CustomOrder;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -11,7 +12,11 @@ import java.util.*;
 public class OrderRedisServiceImpl implements OrderRedisService {
 
     @Autowired
-    RedisUtil redisUtil;
+    private RedisUtil redisUtil;
+
+    // rabbitmq
+    @Autowired
+    private AmqpTemplate amqpTemplate;
 
 
     public Map<String, Object> secKill(int userId, int productId, CustomOrder order) {
@@ -52,21 +57,33 @@ public class OrderRedisServiceImpl implements OrderRedisService {
         dataMap.put("productId", productId + "");
         dataMap.put("userId", userId + "");
 
+        amqpTemplate.convertAndSend("ms_exchange", "orderInfo", dataMap);
+
         resultMap.put("success", true);
         resultMap.put("dataMap", dataMap);
         return resultMap;
     }
 
     //更改支付状态
-    public boolean payOrder(int userId, int productId, int merchantId, String tradeSerialNumber, int payAmount) {
+    public boolean payOrder(int payType, int userId, int productId, int merchantId, String tradeSerialNumber, int payAmount) {
         String key = "userId:" + userId + "==productId:" + productId;
         String value = (String) redisUtil.get(key);
         String[] splitValues = value.split("==");
         splitValues[0] = "2";
+        value = "";
         for (String temp : splitValues) {
-            value = temp + "==";
+            value += temp + "==";
         }
         boolean success = redisUtil.set(key, value);
+
+        Map<String, String> dataMap = new HashMap<String, String>();
+        dataMap.put("tradeSerialNumber", tradeSerialNumber);
+        dataMap.put("payState", "2");
+        String payTimeString = DateFormatUtil.dateToStringWithTime(new Date());
+        dataMap.put("payTimeString", payTimeString);
+        dataMap.put("payType", payType + "");
+        amqpTemplate.convertAndSend("ms_exchange", "payInfo", dataMap);
+
         return success;
     }
 
@@ -102,6 +119,7 @@ public class OrderRedisServiceImpl implements OrderRedisService {
             order.setReceivingPhone(Integer.valueOf(receivingPhone));
             order.setUserId(userId);
             order.setProductId(Integer.valueOf(productId));
+            order.setCount(1);
 
             orderList.add(order);
         }

@@ -67,7 +67,6 @@
     function submit(obj) {
         obj.parent.submit();
     }
-
     document.write("<script src='/js/remain.js?random=" + Math.random() + " '></s" + "cript>")
 </script>
 

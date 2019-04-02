@@ -7,10 +7,11 @@ import com.oceanier.vo.order.OrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderDao orderDao;
@@ -43,5 +44,16 @@ public class OrderServiceImpl implements OrderService{
         customOrder.setPayType(payType);
         orderVo.setCustomOrder(customOrder);
         orderDao.updateOrderPayState(orderVo);
+    }
+
+    public void updateOrderByTradeSerialNumber(int payState, String tradeSerialNumber, int payType, Date payTime) {
+        OrderVo orderVo = new OrderVo();
+        CustomOrder customOrder = new CustomOrder();
+        customOrder.setPayState(payState);
+        customOrder.setTradeSerialNumber(tradeSerialNumber);
+        customOrder.setPayType(payType);
+        customOrder.setPayTime(payTime);
+        orderVo.setCustomOrder(customOrder);
+        orderDao.updateOrderByTradeSerialNumber(orderVo);
     }
 }
