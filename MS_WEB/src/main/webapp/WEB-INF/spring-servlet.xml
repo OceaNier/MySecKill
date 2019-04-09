@@ -38,6 +38,8 @@
 
     <mvc:resources mapping="/html/**" location="/WEB-INF/html/"/>
     <mvc:resources mapping="/js/**" location="/WEB-INF/js/"/>
+    <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
+    <mvc:resources mapping="/img/**" location="/WEB-INF/img/"/>
 
     <task:annotation-driven/>
 </beans>
