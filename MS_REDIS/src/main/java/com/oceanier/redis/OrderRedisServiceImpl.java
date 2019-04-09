@@ -82,6 +82,7 @@ public class OrderRedisServiceImpl implements OrderRedisService {
         String payTimeString = DateFormatUtil.dateToStringWithTime(new Date());
         dataMap.put("payTimeString", payTimeString);
         dataMap.put("payType", payType + "");
+        dataMap.put("flag", "pay");
         amqpTemplate.convertAndSend("ms_exchange", "payInfo", dataMap);
 
         return success;
@@ -124,5 +125,51 @@ public class OrderRedisServiceImpl implements OrderRedisService {
             orderList.add(order);
         }
         return orderList;
+    }
+
+    public void updateOrderByTradeSerialNumber(String flag, int userId, int payStateParam, String tradeSerialNumberParam, int payType) {
+        List<Order> orderList = new ArrayList<Order>();
+        Set<String> keys = redisUtil.getKeys("userId:" + userId);
+        for (String key : keys) {
+            String[] keyInfo = key.split("==");
+            String productId = keyInfo[1].split(":")[1];
+            String userIdString = keyInfo[0].split(":")[1];
+            String value = (String) redisUtil.get(key);
+            String[] valueArray = value.split("==");
+
+            String payState = valueArray[0];
+            String tradeSerialNumber = valueArray[1];
+            if (!tradeSerialNumber.equals(tradeSerialNumberParam)) {
+                continue;
+            }
+            String createTimeString = valueArray[2];
+            String merchantId = valueArray[3];
+            String payAmount = valueArray[4];
+            String receivingAddress = valueArray[5];
+            String receivingName = valueArray[6];
+            String receivingPhone = valueArray[7];
+            String stockCount = valueArray[8];
+
+            String valueTemp = payState + "==" + tradeSerialNumber + "==" + createTimeString + "==" + merchantId + "==" + payAmount
+                    + "==" + receivingAddress + "==" + receivingName + "==" + receivingPhone + "==" + stockCount;
+
+            redisUtil.set(key, valueTemp);
+
+            Map<String, String> dataMap = new HashMap<String, String>();
+            //发送异步消息
+            if ("update".equals(flag)) {
+                dataMap.put("tradeSerialNumber", tradeSerialNumber);
+                dataMap.put("payState", payStateParam + "");
+                dataMap.put("flag", "update");
+            } else if ("refund".equals(flag)) {
+                dataMap.put("tradeSerialNumber", tradeSerialNumber);
+                dataMap.put("payState", payStateParam + "");
+                dataMap.put("payType", payType + "");
+                dataMap.put("payAmount", payAmount + "");
+                dataMap.put("flag", "refund");
+            }
+
+            amqpTemplate.convertAndSend("ms_exchange", "payInfo", dataMap);
+        }
     }
 }

@@ -17,8 +17,15 @@ public interface OrderService {
 
     List<Order> queryOrderByMerchantId(int merchantId);
 
+    List<Order> listOrder();
+
     void updateOrderPayState(int payState, int id, int payType);
 
     void updateOrderByTradeSerialNumber(int payState, String tradeSerialNumber, int payType, Date payTime);
+
+    //退款申请
+    void updateOrderByTradeSerialNumber1(int payState, String tradeSerialNumber);
+
+    void updateFlagById(int flag, int id);
 
 }

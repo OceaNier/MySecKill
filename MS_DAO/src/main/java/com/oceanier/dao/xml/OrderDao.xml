@@ -17,12 +17,24 @@
         SELECT * FROM msOrder WHERE merchantId = #{value}
     </select>
 
+    <select id="listOrder" resultType="order">
+        SELECT * FROM msOrder
+    </select>
+
     <update id="updateOrderPayState" parameterType="orderVo">
         UPDATE msOrder SET payState=#{customOrder.payState},payType=#{customOrder.payType} WHERE id=#{customOrder.id}
     </update>
 
     <update id="updateOrderByTradeSerialNumber" parameterType="orderVo">
         UPDATE msOrder SET payState=#{customOrder.payState},payType=#{customOrder.payType},payTime=#{customOrder.payTime} WHERE tradeSerialNumber=#{customOrder.tradeSerialNumber}
+    </update>
+
+    <update id="updateOrderByTradeSerialNumber1" parameterType="order">
+        UPDATE msOrder SET payState=#{payState} WHERE tradeSerialNumber=#{tradeSerialNumber}
+    </update>
+
+    <update id="updateFlag" parameterType="order">
+        UPDATE msOrder SET orderFlag=#{orderFlag} WHERE id=#{id}
     </update>
 
     <!-- 申请秒杀商品 -->

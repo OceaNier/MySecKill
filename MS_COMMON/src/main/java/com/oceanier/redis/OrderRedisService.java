@@ -12,4 +12,6 @@ public interface OrderRedisService {
     boolean payOrder(int payType, int userId, int productId, int merchantId, String tradeSerialNumber, int payAmount);
 
     List<Order> queryOrderByUserId(int userId);
+
+    void updateOrderByTradeSerialNumber(String flag, int userId, int payStateParam, String tradeSerialNumberParam, int payType);
 }

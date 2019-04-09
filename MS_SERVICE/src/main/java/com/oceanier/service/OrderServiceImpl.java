@@ -36,6 +36,10 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.queryOrderByMerchantId(merchantId);
     }
 
+    public List<Order> listOrder() {
+        return orderDao.listOrder();
+    }
+
     public void updateOrderPayState(int payState, int id, int payType) {
         OrderVo orderVo = new OrderVo();
         CustomOrder customOrder = new CustomOrder();
@@ -55,5 +59,19 @@ public class OrderServiceImpl implements OrderService {
         customOrder.setPayTime(payTime);
         orderVo.setCustomOrder(customOrder);
         orderDao.updateOrderByTradeSerialNumber(orderVo);
+    }
+
+    public void updateOrderByTradeSerialNumber1(int payState, String tradeSerialNumber) {
+        Order order = new Order();
+        order.setTradeSerialNumber(tradeSerialNumber);
+        order.setPayState(payState);
+        orderDao.updateOrderByTradeSerialNumber1(order);
+    }
+
+    public void updateFlagById(int flag, int id) {
+        Order order = new Order();
+        order.setId(id);
+        order.setOrderFlag(flag);
+        orderDao.updateFlag(order);
     }
 }

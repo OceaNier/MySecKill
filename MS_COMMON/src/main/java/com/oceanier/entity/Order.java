@@ -21,6 +21,7 @@ public class Order {
     private String tradeSerialNumber;//交易流水号
     private int count;//数量
     private int payType;//支付类型 1支付宝 2微信 3银联
+    private int orderFlag;//0.正常 1.取消
 
     public int getId() {
         return id;
@@ -132,5 +133,13 @@ public class Order {
 
     public void setPayType(int payType) {
         this.payType = payType;
+    }
+
+    public int getOrderFlag() {
+        return orderFlag;
+    }
+
+    public void setOrderFlag(int orderFlag) {
+        this.orderFlag = orderFlag;
     }
 }

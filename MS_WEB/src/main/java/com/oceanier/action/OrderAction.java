@@ -156,12 +156,12 @@ public class OrderAction {
     }
 
     @RequestMapping(value = "applyRefund")
-    public String applyRefund(HttpServletRequest request, int orderId, int payType) {
+    public String applyRefund(HttpServletRequest request, String tradeSerialNumber) {
         String returnUrl = "user/userLogin";
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user != null) {
-            orderService.updateOrderPayState(4, orderId, payType);
+            orderRedisService.updateOrderByTradeSerialNumber("update", user.getId(), 4, tradeSerialNumber, -1);
             returnUrl = "redirect:/orderAction/queryOrderByUserId";
         } else {
             request.setAttribute("errorInfo", "用户未登录！");
@@ -170,28 +170,12 @@ public class OrderAction {
     }
 
     @RequestMapping(value = "auditRefund")
-    public String auditRefund(HttpServletRequest request, int orderId, int payType, int payState, int payAmount, String tradeSerialNumber) {
+    public String auditRefund(HttpServletRequest request, int userId, int payType, int payState, String tradeSerialNumber) {
         String returnUrl = "merchant/merchantLogin";
         HttpSession session = request.getSession();
         Merchant merchant = (Merchant) session.getAttribute("merchant");
         if (merchant != null) {
-            if (payState == 3) {
-                int refundResult = 0;
-                if (payType == 1) {
-                    refundResult = alipayPay.refund(tradeSerialNumber, payAmount);
-                } else if (payType == 2) {
-                    refundResult = wechatPay.refund(tradeSerialNumber, payAmount);
-                } else if (payType == 3) {
-                    refundResult = bankCardPay.refund(tradeSerialNumber, payAmount);
-                }
-                if (refundResult == 1) {
-                    orderService.updateOrderPayState(payState, orderId, payType);
-                    returnUrl = "redirect:/orderAction/queryOrderByMerchantId";
-                }
-            } else if (payState == 5) {
-                orderService.updateOrderPayState(payState, orderId, payType);
-                returnUrl = "redirect:/orderAction/queryOrderByMerchantId";
-            }
+            orderRedisService.updateOrderByTradeSerialNumber("refund", userId, payState, tradeSerialNumber, payType);
         } else {
             request.setAttribute("errorInfo", "用户未登录！");
         }

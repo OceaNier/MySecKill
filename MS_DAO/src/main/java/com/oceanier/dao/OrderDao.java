@@ -3,7 +3,6 @@ package com.oceanier.dao;
 import com.oceanier.entity.Order;
 import com.oceanier.vo.order.OrderVo;
 
-import java.util.Date;
 import java.util.List;
 
 public interface OrderDao {
@@ -18,7 +17,14 @@ public interface OrderDao {
 
     void updateOrderByTradeSerialNumber(OrderVo orderVo);
 
+    //退款
+    void updateOrderByTradeSerialNumber1(Order order);
+
     List<Order> queryOrderByUserId(int userId);
 
     List<Order> queryOrderByMerchantId(int merchantId);
+
+    List<Order> listOrder();
+
+    void updateFlag(Order order);
 }
