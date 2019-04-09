@@ -3,6 +3,7 @@ package com.oceanier.service.cache;
 import com.oceanier.entity.Product;
 import com.oceanier.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,11 @@ public class ProductCacheServiceImpl implements ProductCacheService {
     public Product queryProductById(int id) {
         System.out.println("come into queryProductById");
         return productService.queryProductById(id);
+    }
+
+    @CachePut(value = "MS_Cache", key = "'product:' + #id")
+    public Product updateProduct(Product product) {
+        productService.updateProduct(product);
+        return productService.queryProductById(product.getId());
     }
 }

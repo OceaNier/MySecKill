@@ -64,9 +64,13 @@ public class ProductAction {
     public String update(Product product) {
         Date startTime = DateFormatUtil.stringToDate(product.getStartTimeString());
         Date endTime = DateFormatUtil.stringToDate(product.getEndTimeString());
-        product.setStartTime(startTime);
-        product.setEndTime(endTime);
-        productService.updateProduct(product);
+        if (startTime != null) {
+            product.setStartTime(startTime);
+        }
+        if (endTime != null) {
+            product.setEndTime(endTime);
+        }
+        productRedisService.updateProduct(product);
         System.out.println(product);
         return "redirect:listProduct";
     }

@@ -31,4 +31,11 @@ public class ProductRedisServiceImpl implements ProductRedisService {
         }
         return product;
     }
+
+    public void updateProduct(Product product) {
+        Product result = productCacheService.updateProduct(product);
+        int id = result.getId();
+        product = productCacheService.queryProductById(id);
+        redisUtil.set("product:" + id, product);
+    }
 }
