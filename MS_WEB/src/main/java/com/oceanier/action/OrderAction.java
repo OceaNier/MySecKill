@@ -47,6 +47,18 @@ public class OrderAction {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user != null) {
+
+            //防刷单处理
+            long time = orderRedisService.getUserVisitTime(user.getId());
+            long currentTime = System.currentTimeMillis();
+            long timeDiff = currentTime - time;
+            long seconds = timeDiff / 1000;
+            long times = orderRedisService.visitTimes(user.getId());
+            if (times / seconds > 10) {
+                System.out.println("非法访问！");
+                return returnUrl;
+            }
+
             Map<String, Object> resultMap = orderRedisService.secKill(user.getId(), order.getProductId(), order);
             boolean success = (boolean) resultMap.get("success");
             if (success) {

@@ -16,6 +16,39 @@
     <!-- 加载配置文件 -->
     <context:property-placeholder location="classpath:redis.properties" ignore-unresolvable="true"/>
     <!-- redis连接池配置-->
+
+    <bean id="redisClusterConfiguration" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
+        <property name="maxRedirects" value="6"></property>
+        <property name="clusterNodes">
+            <set>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="10.211.55.5"></constructor-arg>
+                    <constructor-arg name="port" value="7000"></constructor-arg>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="10.211.55.5"></constructor-arg>
+                    <constructor-arg name="port" value="7001"></constructor-arg>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="10.211.55.6"></constructor-arg>
+                    <constructor-arg name="port" value="7002"></constructor-arg>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="10.211.55.6"></constructor-arg>
+                    <constructor-arg name="port" value="7003"></constructor-arg>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="10.211.55.9"></constructor-arg>
+                    <constructor-arg name="port" value="7004"></constructor-arg>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="10.211.55.9"></constructor-arg>
+                    <constructor-arg name="port" value="7005"></constructor-arg>
+                </bean>
+            </set>
+        </property>
+
+    </bean>
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <!--最大空闲数-->
         <property name="maxIdle" value="300"/>
@@ -37,18 +70,19 @@
 
 
     <!--redis连接工厂 -->
-    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
-          destroy-method="destroy">
-        <property name="poolConfig" ref="jedisPoolConfig"></property>
-        <!--IP地址 -->
-        <property name="hostName" value="10.211.55.5"></property>
-        <!--端口号  -->
-        <property name="port" value="6379"></property>
-        <!--如果Redis设置有密码  -->
-        <property name="password" value=""/>
-        <!--客户端超时时间单位是毫秒  -->
-        <property name="timeout" value="10000"></property>
+    <!--<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"-->
+          <!--destroy-method="destroy">-->
+        <!--<property name="poolConfig" ref="jedisPoolConfig"></property>-->
+        <!--<constructor-arg name="clusterConfig" value="redisClusterConfiguration"></constructor-arg>-->
+        <!--<property name="timeout" value="10000"/>-->
+    <!--</bean>-->
+
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <constructor-arg name="clusterConfig" ref="redisClusterConfiguration"/>
+        <property name="timeout" value="10000"/>
+        <constructor-arg name="poolConfig" ref="jedisPoolConfig"/>
     </bean>
+
     <!--redis操作模版,使用该对象可以操作redis  -->
     <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
         <property name="connectionFactory" ref="jedisConnectionFactory"/>

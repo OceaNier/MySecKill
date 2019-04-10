@@ -172,4 +172,16 @@ public class OrderRedisServiceImpl implements OrderRedisService {
             amqpTemplate.convertAndSend("ms_exchange", "payInfo", dataMap);
         }
     }
+
+    //获取访问次数，防刷单
+    public long visitTimes(int userId) {
+        long times = System.currentTimeMillis();
+        redisUtil.set(userId + "##", times);
+        return redisUtil.incr(userId + "==", 1);
+    }
+
+    public long getUserVisitTime(int userId) {
+        long times = Long.valueOf(redisUtil.get(userId + "##") == null ? "1" : redisUtil.get(userId + "##") + "");
+        return times;
+    }
 }

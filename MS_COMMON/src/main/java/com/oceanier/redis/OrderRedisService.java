@@ -14,4 +14,8 @@ public interface OrderRedisService {
     List<Order> queryOrderByUserId(int userId);
 
     void updateOrderByTradeSerialNumber(String flag, int userId, int payStateParam, String tradeSerialNumberParam, int payType);
+
+    long visitTimes(int userId);
+
+    long getUserVisitTime(int userId);
 }
