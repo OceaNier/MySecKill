@@ -38,8 +38,8 @@
                 <c:if test="${item.payState == 1}">未支付</c:if>
                 <c:if test="${item.payState == 2}">支付完成</c:if>
                 <c:if test="${item.payState == 3}">退款成功</c:if>
-                <c:if test="${item.payState == 4}"><a href="javascript:void(0)" onclick="applyRefund('${item.id}','${item.payType}','3','${item.payAmount}','${item.tradeSerialNumber}')">退款审核通过</a>
-                    ||<a href="javascript:void(0)" onclick="applyRefund('${item.id}','${item.payType}','5','${item.payAmount}','${item.tradeSerialNumber}')">退款审核不通过</a></c:if>
+                <c:if test="${item.payState == 4}"><a href="javascript:void(0)" onclick="auditRefund('${item.userId}','${item.payType}','3','${item.payAmount}','${item.tradeSerialNumber}')">退款审核通过</a>
+                    ||<a href="javascript:void(0)" onclick="auditRefund('${item.userId}','${item.payType}','5','${item.payAmount}','${item.tradeSerialNumber}')">退款审核不通过</a></c:if>
                 <c:if test="${item.payState == 5}">退款失败</c:if>
             </td>
 
@@ -47,8 +47,8 @@
     </c:forEach>
 </table>
 <script type="text/javascript">
-    function applyRefund(orderId, payType, payState, payAmount,tradeSerialNumber) {
-        window.location.href = "/orderAction/auditRefund?orderId="+orderId+"&payType="
+    function auditRefund(userId, payType, payState, payAmount,tradeSerialNumber) {
+        window.location.href = "/orderAction/auditRefund?userId="+userId+"&payType="
             +payType+"&payState="+payState+"&payAmount="+payAmount+"&tradeSerialNumber="+tradeSerialNumber;
     }
 </script>

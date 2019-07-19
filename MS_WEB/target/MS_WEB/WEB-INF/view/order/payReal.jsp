@@ -17,7 +17,9 @@
     <input type="radio" name="payType" value="2"/>微信支付<br>
     <input type="radio" name="payType" value="3"/>银联支付<br>
 
-    <input type="hidden" name="id" value="${id}">
+    <input type="hidden" name="userId" value="${userId}">
+    <input type="hidden" name="productId" value="${productId}">
+    <input type="hidden" name="merchantId" value="${merchantId}">
     <input type="hidden" name="tradeSerialNumber" value="${tradeSerialNumber}">
     <input type="hidden" name="payAmount" value="${payAmount}">
 

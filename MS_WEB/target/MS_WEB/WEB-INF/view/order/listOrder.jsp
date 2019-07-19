@@ -29,8 +29,10 @@
             <td>${item.count}</td>
             <td>
                 <c:if test="${item.payState == 1}"><a
-                        href="/orderAction/toPayWithOrder?id=${item.id}&tradeSerialNumber=${item.tradeSerialNumber}&payAmount=${item.payAmount}">继续支付</a></c:if>
-                <c:if test="${item.payState == 2}">支付完成||<input type="button" value="发起退款" onclick="applyRefund('${item.id}','${item.payType}')"></c:if>
+                        href="/orderAction/toPayWithOrder?userId=${item.userId}&productId=${item.productId}
+                        &tradeSerialNumber=${item.tradeSerialNumber}&payAmount=${item.payAmount}
+                        &merchantId=${item.merchantId}">继续支付</a></c:if>
+                <c:if test="${item.payState == 2}">支付完成||<input type="button" value="发起退款" onclick="applyRefund('${item.tradeSerialNumber}')"></c:if>
                 <c:if test="${item.payState == 3}">退款成功</c:if>
                 <c:if test="${item.payState == 4}">退款申请中</c:if>
                 <c:if test="${item.payState == 5}">退款失败</c:if>
@@ -40,8 +42,8 @@
     </c:forEach>
 </table>
 <script type="text/javascript">
-    function applyRefund(orderId, payType) {
-        window.location.href = "/orderAction/applyRefund?orderId="+orderId+"&payType="+payType;
+    function applyRefund(tradeSerialNumber) {
+        window.location.href = "/orderAction/applyRefund?tradeSerialNumber="+tradeSerialNumber;
     }
 </script>
 </body>
